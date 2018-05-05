@@ -12,9 +12,20 @@ let conf = {
     },
     module: {
         rules: [{
+                exclude: /node_modules/,
                 test: /\.js$/,
                 loader: 'babel-loader'
-                    //  exclude: '/node_modules/'
+
+            },
+            {
+                exclude: /node_modules/, // don't transpile node_modules
+                test: /\.jsx$/, // do transpile any files ending in .jsx
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        plugins: ["transform-react-jsx"]
+                    }
+                }
             },
             {
                 test: /\.css$/,
@@ -22,6 +33,16 @@ let conf = {
                     'style-loader',
                     'css-loader'
                 ]
+            },
+            {
+                test: /\.less$/,
+                use: [{
+                    loader: "style-loader" // creates style nodes from JS strings
+                }, {
+                    loader: "css-loader" // translates CSS into CommonJS
+                }, {
+                    loader: "less-loader" // compiles Less to CSS
+                }]
             },
             { test: /\.(png|woff|woff2|eot|ttf|svg|jpg)$/, loader: 'url-loader?limit=100000' }
         ]
