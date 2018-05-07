@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import TheList from './list.jsx';
 import ReactDOM from 'react-dom';
 
+import TheList from './list.jsx';
 import taskMassive from './task.jsx';
 
 
