@@ -1,5 +1,6 @@
-import task from './task.jsx';
 import React, {Component} from 'react';
+
+import task from './task.jsx';
 
 class TheList extends Component {
   constructor (props) {
