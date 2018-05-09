@@ -27,20 +27,17 @@ export class TheList extends Component {
  
 }
 
-  deleteTask (key) {
+  deleteTask (id) {
    const {tasks} = this.state
-
-tasks.splice(key, 1)
- 
-
-   this.setState({
-    tasks: tasks
+   const _tasks = [].concat(tasks)
+this.setState({
+    tasks: tasks.filter((item, index) => index !== id)
    })
-
+   console.log(this.state);
   }
 
   render () {
-
+    console.log(this.state.tasks);
     return (<article> 
       <header> 
         <h1>To Do List</h1> 
