@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-import TheList from './list.jsx';
-import taskMassive from './task.jsx';
+import {TheList} from './list.jsx';
+import {taskMassive} from './task.jsx';
 
 
 ReactDOM.render( 

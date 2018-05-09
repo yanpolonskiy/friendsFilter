@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
-import task from './task.jsx';
+import {Task} from './task.jsx';
 
-class TheList extends Component {
+export class TheList extends Component {
   constructor (props) {
     super(props)
 
@@ -11,26 +11,42 @@ class TheList extends Component {
     }
 
     this.onClick = this.onClick.bind(this)
+    this.deleteTask = this.deleteTask.bind(this)
   }
 
   onClick () {
     const {tasks} = this.state
-
+    let description = prompt("Введите Таск", "Новое задание");
+    
     this.setState({
       tasks: [].concat(tasks, { 
-        description: Math.random(), 
-        date: new Date().toString()
-      })
-  }) }
+        description: description,
+        addedDate: new Date().toString()
+       })
+  }) 
+ 
+}
+
+  deleteTask (key) {
+   const {tasks} = this.state
+
+   tasks.splice(key, 1)
+   this.setState({
+    tasks: [].concat(tasks)
+   })
+
+  }
 
   render () {
-     
+     console.log(this.state);
     return (<article> 
       <header> 
         <h1>To Do List</h1> 
       </header> 
       <ul className='tasksList'> 
-        {this.state.tasks.map((task, i) => (<Task key={i} {...task} />))} 
+        {this.state.tasks.map((task, i) => (
+       
+        <Task key={i} id={i} deleteTask={this.deleteTask} {...task} />))} 
       </ul> 
       <button onClick={this.onClick}>Add new row</button>
     </article>)
