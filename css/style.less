@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
     margin: 0;
+    padding: 0;
 }
 
 #react-container {
@@ -9,9 +10,24 @@
     ul {
        width: 100%;
         list-style-type: none;
+        background-color: lightgrey;
+     
         li {
+            padding: 10px 40px;
+            border: 0.5px solid black;
+            width: 100%;
             display: flex;
             justify-content: space-between;
+            &:nth-child(1) {
+                display: flex;
+               
+                flex: 1 0 33%;
+                
+            }
+            &:nth-child(odd) {
+                background-color: aquamarine;
+            }
         }
     }
 }
+
