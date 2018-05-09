@@ -30,27 +30,29 @@ export let taskMassive = [{
  export class Task extends Component { 
  constructor(props) {
       super(props)
-      this.addedDate = this.props.addedDate,
-      this.description = this.props.description
+     
 
     this.state = {
-      
+      description: this.props.description,
+      addedDate: this.props.addedDate
     }
  }
 
     deleteTask() {
        // let key = this.props.id;
-       console.log(this.state);
+     
          this.props.deleteTask(this.props.id);
+         console.log(this.state);
          this.setState({
-            
+            description: this.props.description,
+            addedDate: this.props.addedDate
          })
     } 
        render() {
         
            return(<li>
-                <span className="description">{this.description}</span>
-                <span className="addedDate" >{this.addedDate}</span>
+                <span className="description">{this.state.description}</span>
+                <span className="addedDate" >{this.state.addedDate}</span>
                 <button onClick={this.deleteTask.bind(this)}>Удалить запись</button>
            </li>)
        }
