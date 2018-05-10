@@ -6,7 +6,7 @@ import React, {Component} from 'react';
       super(props)
       this.description = this.props.description
       this.addedDate = this.props.addedDate
-
+      this.id = this.props.id;
   
  }
  
@@ -18,7 +18,7 @@ import React, {Component} from 'react';
       
     } 
        render() {
-        
+        console.log(this.id);
              return(<li>
                 <span className="description">{this.description}</span>
                 <span className="addedDate" >{this.addedDate}</span>

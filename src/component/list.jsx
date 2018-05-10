@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 
 import { Task } from './task.jsx';
-import { guid } from '../helpers/utils.js';
+import { guid, filtration } from '../helpers/utils.js';
 
 export class TheList extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      tasks: props.tasks
+      tasks: props.tasks,
+      displayTasks: props.tasks
     }
 
     this.addTask = this.addTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
     this.sort = this.sort.bind(this)
+    this.filter = this.filter.bind(this)
   }
 
   addTask() {
@@ -24,6 +26,11 @@ export class TheList extends Component {
       tasks: [].concat(tasks, {
         id: guid(),
         description: description,
+        addedDate: new Date().toString()
+      }),
+      displayTasks: [].concat(tasks, {
+        id: guid(),
+        description,
         addedDate: new Date().toString()
       })
     })
@@ -38,13 +45,22 @@ export class TheList extends Component {
 
     this.setState({
       tasks: _tasks.filter((item, index) => {
-        console.log(item.id);
-        console.log(id);
+         return item.id !== id
+      }),
+      displayTasks: tasks.filter((item, index) => {
         return item.id !== id
-      })
+     })
     })
 
   }
+
+  filter() {
+    let word = document.querySelector(".listFilter").value; 
+  
+    this.setState( {
+      displayTasks: filtration(this.state.tasks.slice(), 'description', word)
+  }) 
+}
 
   sort() {
     const { tasks } = this.state
@@ -68,27 +84,32 @@ export class TheList extends Component {
     )
     console.log(_tasks);
     this.setState({
-      tasks: _tasks
+      tasks: _tasks,
+      displayTasks: tasks
     })
   }
 
   render() {
-
+   let li = this.state.displayTasks.map((task, i) => (
+    <Task key={task.id} deleteTask={this.deleteTask} {...task} />))
     return (<article>
       <header>
         <h1>To Do List</h1>
       </header>
       <ul className='taskList'>
+      <div className="functions">
+      <button onClick={this.addTask}>Add new Task</button>
+      <button onClick={this.sort}>Sort</button>
+      <input type="text" className="listFilter" onInput={this.filter} placeholder="Введите описание"></input>
+      </div>
       <li className="headRow">
         <span>Описание</span>
         <span>Дата добавления</span>
         <span>Кнопка удалить</span>
       </li>
-        {this.state.tasks.map((task, i) => (
-          <Task key={guid()} id={guid()} deleteTask={this.deleteTask} {...task} />))}
+        {li}
       </ul>
-      <button onClick={this.addTask}>Add new Task</button>
-      <button onClick={this.sort}>Sort</button>
+      
     </article>)
   }
 
