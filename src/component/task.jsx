@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 
-export class Task extends Component {
+export default class Task extends Component {
+
     constructor(props) {
         super(props)
         this.description = this.props.description
@@ -10,13 +11,12 @@ export class Task extends Component {
 
     }
 
-    deleteTask() {
-        // let key = this.props.id;
-        if (confirm("Удалить запись?"))
-            this.props.deleteTask(this.props.id);
+    deleteTask() {      
 
+        if (confirm("Удалить запись?")) this.props.deleteTask(this.props.id); 
 
     }
+
     render() {
 
         return (<li>
@@ -24,8 +24,8 @@ export class Task extends Component {
             <span className="addedDate" >{this.addedDate}</span>
             <button onClick={this.deleteTask.bind(this)}>Удалить запись</button>
         </li>)
-    }
 
+    }
 }
 
     //<button onClick={this.props.deleteTask.bind(this.props.id)}>Удалить запись</button>
