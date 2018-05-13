@@ -103,7 +103,11 @@ export class TheList extends Component {
     this.setState({
         activeId: id
     })
+   
+    this.props.showActiveTask(...[].concat(this.state.tasks).filter(item => {    
+       return item.id === id
 
+    }))
    }
 
     render() {

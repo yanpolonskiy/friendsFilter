@@ -8,17 +8,30 @@ import { ItemWindow } from "./ItemWindow.jsx";
 export class ToDoApp extends Component {
     constructor(props) {
         super(props)
+    
+        this.showActiveTask = this.showActiveTask.bind(this);
+        this.state = {
+            activeTask: []
+        }
     }
-    render() {
 
+    showActiveTask(task) {
+      
+        this.setState({
+            activeTask: task
+        })
+    }
+
+    render() {
+        console.log("rerender");
+        console.log(this.state.activeTask);
    return(
+  
     <div id="react-container">
-        <div className="list-container">
-        <TheList tasks={[]} />
+        <div className="list-container"  >
+        <TheList tasks={[]} showActiveTask={this.showActiveTask} />
         </div>
-        <div className="task-container">
-        <ItemWindow task={{}} />
-        </div>
+        <ItemWindow task={this.state.activeTask} />
     </div>
    ) }
 
