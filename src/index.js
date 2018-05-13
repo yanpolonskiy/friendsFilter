@@ -1,2 +1,2 @@
-import './react.jsx';
 import '../css/style.less';
+import './react.jsx';

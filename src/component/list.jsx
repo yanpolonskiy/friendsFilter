@@ -9,17 +9,34 @@ export class TheList extends Component {
     constructor(props) {
 
         super(props)
+        this.addTask = this.addTask.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
+        this.sort = this.sort.bind(this);
+        this.filter = this.filter.bind(this);
+        
 
         this.state = {
             tasks: props.tasks,
-            filterWord: ''
+            filterWord: '',
+            activeId: 1234
         }
 
-        this.addTask = this.addTask.bind(this)
-        this.deleteTask = this.deleteTask.bind(this)
-        this.sort = this.sort.bind(this)
-        this.filter = this.filter.bind(this)
+        
+    }
 
+    componentDidMount() {
+        let req = new XMLHttpRequest();
+
+        req.open('GET', 'src/data/tasks.json', true);
+        req.send();
+        req.onload = () => {
+
+            let parsedReq = JSON.parse(req.response);
+            this.setState({
+                tasks: parsedReq
+            })
+
+        }
     }
 
     addTask() {
@@ -81,27 +98,20 @@ export class TheList extends Component {
         })
     }
 
-    componentDidMount() {
-        let req = new XMLHttpRequest();
+   setActiveTask(id) {
+   
+    this.setState({
+        activeId: id
+    })
 
-        req.open('GET', 'src/data/tasks.json', true);
-        req.send();
-        req.onload = () => {
-
-            let parsedReq = JSON.parse(req.response);
-            this.setState({
-                tasks: parsedReq
-            })
-
-        }
-    }
+   }
 
     render() {
-
+      //  console.log(this.state.activeId);
         let taskRender = filtration(this.state.tasks, 'description',
             this.state.filterWord).map((task, i) =>
-                <Task key={task.id} deleteTask={this.deleteTask} {...task} />)
-
+                <Task activeId={this.state.activeId} key={task.id} deleteTask={this.deleteTask} setActiveTask={this.setActiveTask.bind(this)} {...task} />)
+               
         return (
             <article>
                 <header>

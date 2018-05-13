@@ -5,10 +5,24 @@
 }
 
 #react-container {
-    width: 700px;
+    width: 1000px;
     text-align: center;
+    display: flex;
+   
+    #list-container {
+        min-width: 500px;
+        flex: 1 0 50%;
+    }
+    header {
+        border: 1px solid black;
+    }
+    .functions {
+      
+        border-right: 1px solid black;
+    }
     ul {
         width: 100%;
+        
         list-style-type: none;
         background-color: lightgrey;
         li {
@@ -17,6 +31,7 @@
             width: 100%;
             display: flex;
             justify-content: space-between;
+            
             &:nth-child(1) {
                 display: flex;
                 flex: 1 0 33%;
@@ -24,12 +39,25 @@
             &:nth-child(odd) {
                 background-color: aquamarine;
             }
+            &.active {
+                background-color: orange;
+            }
         }
     }
 }
 
+.task-container {
+    padding-top: 30px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    min-height: 200px;
+    flex: 1 0 50%;
+}
+
 .functions {
     display: flex;
+    max-height: 20px;
     justify-content: space-between;
     button {
         flex: 1 0 20%;
