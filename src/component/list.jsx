@@ -16,7 +16,7 @@ export class TheList extends Component {
         
 
         this.state = {
-            tasks: props.tasks,
+            tasks: this.props.tasks,
             filterWord: '',
             activeId: 1234
         }
@@ -24,31 +24,19 @@ export class TheList extends Component {
         
     }
 
-    componentDidMount() {
-        let req = new XMLHttpRequest();
-
-        req.open('GET', 'src/data/tasks.json', true);
-        req.send();
-        req.onload = () => {
-
-            let parsedReq = JSON.parse(req.response);
-            this.setState({
-                tasks: parsedReq
-            })
-
-        }
-    }
 
     addTask() {
 
-        let description = prompt("Введите Таск", "Новое задание");
+        let title = prompt("Введите Таск", "Новое задание");
+        let description = prompt("Введите Описание", "Описание");
         let id = guid();
 
         this.setState({
 
             tasks: [].concat(this.state.tasks, {
                 id,
-                description: description,
+                title: title,
+                description,
                 addedDate: new Date().toString()
 
             }),
@@ -110,6 +98,10 @@ export class TheList extends Component {
     }))
    }
 
+   deleteActiveTask() {
+
+   }
+
     render() {
       //  console.log(this.state.activeId);
         let taskRender = filtration(this.state.tasks, 'description',
@@ -123,16 +115,18 @@ export class TheList extends Component {
                 </header>
                 <ul className='taskList'>
                     <div className="functions">
-                        <button onClick={this.addTask}>Add new Task</button>
+                        <button onClick={this.addTask}>Add new Task</button>                        
+                        <button onClick={this.deleteActiveTask}>Удалить</button>
+                        <button onClick={this.editActiveTask}>Редактировать</button>
                         <button onClick={this.sort}>Sort</button>
                         <FilterInput filter={this.filter} />
                     </div>
                     <li className="headRow">
-                        <span>Описание</span>
+                        <span>Название</span>
                         <span>Дата добавления</span>
                         <span>Кнопка удалить</span>
                     </li>
-
+                    
                     {taskRender}
                     
                 </ul>

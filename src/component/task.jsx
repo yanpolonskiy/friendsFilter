@@ -31,7 +31,7 @@ export default class Task extends Component {
     render() {
  
         return (<li className={this.props.activeId === this.props.id ? "active" : "not-active"}  onClick={this.setActive.bind(this)}>
-            <span className="description">{this.props.description}</span>
+            <span className="description">{this.props.title}</span>
             <span className="addedDate" >{this.props.addedDate}</span>
             <button onClick={this.deleteTask.bind(this)}>Удалить запись</button>
         </li>)
