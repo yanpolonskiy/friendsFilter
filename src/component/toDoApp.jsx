@@ -2,63 +2,178 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import { TheList } from './list.jsx';
-import { guid } from '../helpers/utils.js';
+import { guid, filtration } from '../helpers/utils.js';
 import { ItemWindow } from "./ItemWindow.jsx";
 import { Popup } from "./Popup.jsx";
 import { PopupDeleter } from "./PopupDeleter.jsx";
 import { PopupEditor } from "./PopupEditor.jsx";
-import { filtration } from '../helpers/utils.js';
+import { FilterInput } from './FilterInput.jsx';
 
 export class ToDoApp extends Component {
     constructor(props) {
         super(props)
-    
-        this.showActiveTask = this.showActiveTask.bind(this);
         this.state = {
-            tasks: [],
-            activeTask: []
+            tasks: [{ id: '', title: '', description: '', addedDate: '' }],
+            activeId: '',
+            isSort: false,
+            filterWord: '',
+            PopupId: -1,
+            isVisible: false
         }
     }
-
-    showActiveTask(task) {
-      
-        this.setState({
-            activeTask: task
-        })
-    }
-    
 
     componentDidMount() {
         let req = new XMLHttpRequest();
-
         req.open('GET', 'src/data/tasks.json', true);
         req.send();
         req.onload = () => {
-
             this.setState({
-                tasks: JSON.parse(req.response)
+                tasks: JSON.parse(req.response),
+                activeId: JSON.parse(req.response)[0].id
             })
-           
         }
     }
 
-    
+    addTask = () => {
+        let title = prompt("Введите Таск", "Новое задание");
+        let description = prompt("Введите Описание", "Описание");
+        let id = guid();
+        this.setState({
+            tasks: [].concat(this.state.tasks, {
+                id,
+                title: title,
+                description,
+                addedDate: new Date().toString()
+            }),
+        })
+    }
+
+    sort = () => {
+        let _tasks = [];
+        if (this.state.isSort) {
+            _tasks = this.state.tasks.reverse();
+        }
+
+        else {
+            _tasks = [].concat(this.state.tasks).sort((a, b) => {
+                if (Date.parse(a.addedDate) < Date.parse(b.addedDate)) {
+                    return -1
+                }
+                if (Date.parse(a.addedDate) > Date.parse(b.addedDate)) {
+                    return 1
+                }
+                return 0
+            })
+            this.setState({
+                isSort: true
+            })
+        }
+
+        this.setState({
+            tasks: _tasks,
+        })
+    }
+
+    filter = () => {
+        this.setState({
+            filterWord: ReactDOM.findDOMNode(this.refs.filterInput).value
+        })
+    }
+
+    selectActive = (id) => {
+        this.setState({
+            activeId: id
+        })
+
+    }
+
+    openDeletePopup = () => {
+        this.setState({
+            PopupId: 0,
+            isVisible: true
+        })
+    }
+
+    deleteActiveTask = () => {
+        this.setState({
+            tasks: [].concat(this.state.tasks).filter((item) => {
+                return item.id !== this.state.activeId;
+            })
+        })
+    }
+
+    editActiveTask = () => {
+        if (confirm("Редактируем таск?")) {
+            let description = "newDescription";
+            let title = "newTitle";
+            let addedDate = new Date().toString();
+            this.setState({
+                tasks: [].concat(this.state.tasks).map((item) => {
+                    if (item.id === this.state.activeId)
+                        return {
+                            id: item.id,
+                            title,
+                            description,
+                            addedDate
+                        };
+                    return item;
+                })
+            })
+        }
+    }
+
+    closePopup() {
+        this.setState({
+            isVisible: false
+        })
+    }
 
     render() {
-        
-   return(
-  
-    <div id="react-container">
-        <div className="list-container"  >
-        <TheList tasks={this.state.tasks} showActiveTask={this.showActiveTask} />
-        </div>
-        <ItemWindow task={this.state.activeTask} />
-        <Popup id={0} activeId={this.state.activeTask.id}>
-        <PopupDeleter/>
-        <PopupEditor/>
-        </Popup>
-    </div>
-   ) }
-
-
+        let tasks = filtration(this.state.tasks, "title", this.state.filterWord);
+        let task = this.state.tasks.filter((item => {
+            return item.id === this.state.activeId;
+        }))[0] ? this.state.tasks.filter((item => {
+            return item.id === this.state.activeId;
+        }))[0] : {title: "", description: ""}
+        return (
+            <div id="react-container">
+                <div id="list-container">
+                    <div className="functions">
+                        <button onClick={this.addTask}>Add new Task</button>
+                        <button onClick={this.openDeletePopup}>Удалить</button>
+                        <button onClick={this.editActiveTask}>Редактировать</button>
+                        <button onClick={this.sort}>Sort</button>
+                        <FilterInput ref="filterInput" onInput={this.filter} />
+                    </div>
+                    <ul>
+                        <li className="headRow">
+                            <span className="head-title">Название</span>
+                            <span className="head-date">Дата изменения</span>
+                        </li>
+                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive.bind(this)} />
+                    </ul>
+                </div>
+                <ItemWindow task={task} />
+                <Popup id={this.state.PopupId} isVisible={this.state.isVisible} activeId={this.state.activeId}>
+                    <PopupDeleter deleteActiveTask={this.deleteActiveTask.bind(this)} closePopup={this.closePopup.bind(this)} />
+                    <PopupEditor />
+                </Popup>
+            </div>
+        )
+    }
 }
+
+
+
+
+
+/*
+
+<div className="list-container"  >
+<TheList ref="TheList" tasks={this.state.tasks} showActiveTask={this.showActiveTask} />
+</div>
+
+<Popup id={0} activeId={this.state.activeTask.id}>
+<PopupDeleter />
+<PopupEditor />
+</Popup>*/
