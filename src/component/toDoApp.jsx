@@ -107,15 +107,16 @@ export class ToDoApp extends Component {
         })
     }
 
-    editActiveTask = (description, title, addedDate) => {     
+    editActiveTask = (description, title, addedDate) => {
+        console.log(description, title, addedDate);       
             this.setState({
                 tasks: [].concat(this.state.tasks).map((item) => {
                     if (item.id === this.state.activeId)
                         return {
                             id: item.id,
-                            title,
-                            description,
-                            addedDate
+                            title: title,
+                            description: description,
+                            addedDate: addedDate
                         };
                     return item;
                 })

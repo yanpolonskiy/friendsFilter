@@ -9,20 +9,30 @@ export class PopupEditor extends Component {
         }
    }
 
+   componentWillReceiveProps(nextProps) {
+        this.setState({
+            title: nextProps.title,
+            description: nextProps.description
+        })
+   }
+
    changeTitle = (e) => {
        this.setState({
            title: e.target.value
        })
    }
 
-   changeTitle = (e) => {
+   changeDescription = (e) => {       
     this.setState({
         description: e.target.value
     })
 }
 
-   saveChanges = () => {
-
+   saveChanges = () => {    
+    let description = this.state.description ? this.state.description : this.props.description;
+    let title = this.state.title ? this.state.title : this.props.title;
+    this.props.editActiveTask(description, title, new Date().toString());
+    this.props.closePopup();
    }
 
    negative = () => {       
