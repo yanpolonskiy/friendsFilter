@@ -10,44 +10,9 @@ export class TheList extends Component {
         super(props)
      
     }
-/*
-    deleteTask(id) {
-
-        const _tasks = [].concat(this.props.tasks)
-
-        this.setState({
-            tasks: _tasks.filter((item, index) => item.id !== id)
-        })
-
-    }
-
-    filter(word) {
-
-        this.setState({
-            filterWord: word
-        })
-
-    }
-
-
-   setActiveTask(id) {
-   
-    this.setState({
-        activeId: id
-    })
-  
-    this.props.showActiveTask(...[].concat(this.state.tasks).filter(item => {    
-       return item.id === id
-
-    }))
-   }
-
-   deleteActiveTask() {
-
-   }
-*/
+    
     render() {                  
-        return(this.props.tasks.map((task) => <Task key={task.id} activeId={this.props.activeId} selectActive={this.props.selectActive} {...task}/>))            
+        return(this.props.tasks.map((task) => <Task key={task.id} activeId={this.props.activeId} selectActive={this.props.selectActive} openToEdit={this.props.openToEdit} {...task}/>))            
     }
 
 }

@@ -14,7 +14,7 @@ export default class Task extends Component {
 
      render() {
  
-        return (<li className={this.props.activeId === this.props.id ? "active" : ""} onClick={this.selectActive}>
+        return (<li className={this.props.activeId === this.props.id ? "active" : ""} onClick={this.selectActive} onDoubleClick={this.props.openToEdit}>
             <span className="title">{this.props.title}</span>
             <span className="addedDate" >{this.props.addedDate}</span>
         </li>)

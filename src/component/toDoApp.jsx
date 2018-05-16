@@ -107,8 +107,7 @@ export class ToDoApp extends Component {
         })
     }
 
-    editActiveTask = (description, title, addedDate) => {
-        console.log(description, title, addedDate);       
+    editActiveTask = (description, title, addedDate) => {     
             this.setState({
                 tasks: [].concat(this.state.tasks).map((item) => {
                     if (item.id === this.state.activeId)
@@ -152,7 +151,7 @@ export class ToDoApp extends Component {
                             <span className="head-title">Название</span>
                             <span className="head-date">Дата изменения</span>
                         </li>
-                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive} />
+                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive} openToEdit={this.openPopupEditor}/>
                     </ul>
                 </div>
                 <ItemWindow task={task} />
