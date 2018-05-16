@@ -116,9 +116,29 @@
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    .buttons {
-        button {
+    button {      
             min-width: 200px;
+            
+    }
+}
+
+.pop-up-editor {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    input {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 50%;
+    }
+    .buttons {
+        display: flex;
+        width: 50%;
+        justify-content: space-around;
+        button {
+            width: 200px;
         }
     }
 }

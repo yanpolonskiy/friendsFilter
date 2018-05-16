@@ -20,3 +20,23 @@ export function filtration(array, property, word) {
     })
 
 }
+
+export function getData(url) {
+    return new Promise(function(resolve, reject) {
+        let req = new XMLHttpRequest();
+        req.open('GET', url, true);
+        req.onload = function() {
+            if (this.status === 200) {
+                resolve(JSON.parse(this.response));
+            } else {
+                let error = new Error(this.statusText);
+                error.code = this.status;
+                reject(error);
+            }
+        }
+        req.onerror = function() {
+            reject(new Error("Network Error"));
+        };
+        req.send();
+    })
+}

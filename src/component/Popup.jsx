@@ -16,3 +16,4 @@ export class Popup extends Component {
     }
         
 }
+//this.props.id

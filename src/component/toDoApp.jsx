@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import { TheList } from './list.jsx';
-import { guid, filtration } from '../helpers/utils.js';
+import { guid, filtration, getData } from '../helpers/utils.js';
 import { ItemWindow } from "./ItemWindow.jsx";
 import { Popup } from "./Popup.jsx";
 import { PopupDeleter } from "./PopupDeleter.jsx";
@@ -22,16 +22,14 @@ export class ToDoApp extends Component {
         }
     }
 
-    componentDidMount() {
-        let req = new XMLHttpRequest();
-        req.open('GET', 'src/data/tasks.json', true);
-        req.send();
-        req.onload = () => {
-            this.setState({
-                tasks: JSON.parse(req.response),
-                activeId: JSON.parse(req.response)[0].id
-            })
-        }
+    componentDidMount() {       
+      getData('src/data/tasks.json').then(tasks => {
+          this.setState({
+              tasks
+          });
+      }, error => {
+          console.log(error);
+      })
     }
 
     addTask = () => {
@@ -87,9 +85,16 @@ export class ToDoApp extends Component {
 
     }
 
-    openDeletePopup = () => {
+    openPopupDeleter = () => {
         this.setState({
             PopupId: 0,
+            isVisible: true
+        })
+    }
+
+    openPopupEditor = () => {
+        this.setState({
+            PopupId: 1,
             isVisible: true
         })
     }
@@ -102,11 +107,7 @@ export class ToDoApp extends Component {
         })
     }
 
-    editActiveTask = () => {
-        if (confirm("Редактируем таск?")) {
-            let description = "newDescription";
-            let title = "newTitle";
-            let addedDate = new Date().toString();
+    editActiveTask = (description, title, addedDate) => {     
             this.setState({
                 tasks: [].concat(this.state.tasks).map((item) => {
                     if (item.id === this.state.activeId)
@@ -120,9 +121,9 @@ export class ToDoApp extends Component {
                 })
             })
         }
-    }
+    
 
-    closePopup() {
+    closePopup = () => {
         this.setState({
             isVisible: false
         })
@@ -140,8 +141,8 @@ export class ToDoApp extends Component {
                 <div id="list-container">
                     <div className="functions">
                         <button onClick={this.addTask}>Add new Task</button>
-                        <button onClick={this.openDeletePopup}>Удалить</button>
-                        <button onClick={this.editActiveTask}>Редактировать</button>
+                        <button onClick={this.openPopupDeleter}>Удалить</button>
+                        <button onClick={this.openPopupEditor}>Редактировать</button>
                         <button onClick={this.sort}>Sort</button>
                         <FilterInput ref="filterInput" onInput={this.filter} />
                     </div>
@@ -150,13 +151,13 @@ export class ToDoApp extends Component {
                             <span className="head-title">Название</span>
                             <span className="head-date">Дата изменения</span>
                         </li>
-                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive.bind(this)} />
+                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive} />
                     </ul>
                 </div>
                 <ItemWindow task={task} />
                 <Popup id={this.state.PopupId} isVisible={this.state.isVisible} activeId={this.state.activeId}>
-                    <PopupDeleter deleteActiveTask={this.deleteActiveTask.bind(this)} closePopup={this.closePopup.bind(this)} />
-                    <PopupEditor />
+                    <PopupDeleter deleteActiveTask={this.deleteActiveTask} closePopup={this.closePopup} />
+                    <PopupEditor title={task.title} description={task.description} editActiveTask={this.editActiveTask} closePopup={this.closePopup}/>
                 </Popup>
             </div>
         )
@@ -167,13 +168,3 @@ export class ToDoApp extends Component {
 
 
 
-/*
-
-<div className="list-container"  >
-<TheList ref="TheList" tasks={this.state.tasks} showActiveTask={this.showActiveTask} />
-</div>
-
-<Popup id={0} activeId={this.state.activeTask.id}>
-<PopupDeleter />
-<PopupEditor />
-</Popup>*/
