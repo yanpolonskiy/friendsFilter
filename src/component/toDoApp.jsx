@@ -107,6 +107,14 @@ export class ToDoApp extends Component {
         })
     }
 
+    deleteTask = (id) => {
+        this.setState({
+            tasks: [].concat(this.state.tasks).filter((item) => {
+                return item.id !== id;
+            })
+        })
+    }
+
     editActiveTask = (description, title, addedDate) => {     
             this.setState({
                 tasks: [].concat(this.state.tasks).map((item) => {
@@ -122,7 +130,6 @@ export class ToDoApp extends Component {
             })
         }
     
-
     closePopup = () => {
         this.setState({
             isVisible: false
@@ -150,8 +157,9 @@ export class ToDoApp extends Component {
                         <li className="headRow">
                             <span className="head-title">Название</span>
                             <span className="head-date">Дата изменения</span>
+                            <span className="head-date">Удалить</span>
                         </li>
-                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive} openToEdit={this.openPopupEditor}/>
+                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive} openToEdit={this.openPopupEditor} deleteTask={this.deleteTask}/>
                     </ul>
                 </div>
                 <ItemWindow task={task} />

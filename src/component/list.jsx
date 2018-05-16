@@ -12,7 +12,7 @@ export class TheList extends Component {
     }
     
     render() {                  
-        return(this.props.tasks.map((task) => <Task key={task.id} activeId={this.props.activeId} selectActive={this.props.selectActive} openToEdit={this.props.openToEdit} {...task}/>))            
+        return(this.props.tasks.map((task) => <Task key={task.id} activeId={this.props.activeId} selectActive={this.props.selectActive} openToEdit={this.props.openToEdit} deleteTask={this.props.deleteTask} {...task}/>))            
     }
 
 }

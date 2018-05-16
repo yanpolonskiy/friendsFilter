@@ -5,12 +5,11 @@
 }
 
 #container {
-    width: 850px;
+    
     height: 200px;
 }
 
-#react-container {
-    width: 100%;
+#react-container {    
     height: 100%;
     text-align: center;
     display: flex;
@@ -26,8 +25,7 @@
 
     .task-container {
         border: 1px solid black;
-        display: flex;
-     
+        display: flex;     
         height: 200px;
         flex-direction: column;
         flex: 1 0 30%;
@@ -52,30 +50,34 @@
 
     ul {
         overflow: scroll;
-        width: 100%;
         height: 100%;
         flex: 1 0 180px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         list-style-type: none;
         background-color: aquamarine;
         li {
             flex: 1 0 30px;
-            cursor: pointer;            
+            cursor: pointer;
+            padding-left: 10px;
+            padding-right: 10px;            
             display: flex;            
             align-content: center;
             align-items: center;
             justify-content: space-between;
-            text-overflow: ellipsis;
-            
+            text-overflow: ellipsis;            
             span {
-                flex: 1 0 50%;
-                max-width: 50%;
-                    justify-content: center;
-                    align-self: center;
+                              
+                justify-content: center;
+                align-self: center;
                 text-overflow: ellipsis;              
                 white-space: nowrap;
             }
+            button {
+               
+            }
+
             &:nth-child(odd) {
                 background-color: lightgrey;
             }
