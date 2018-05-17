@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 
-export class Popup extends Component {
-    constructor(props) {
-        super(props);
-    
-   }
-
-    render() {
-        let className = this.props.isVisible ? "pop-up visible" : "pop-up";  
-        return (
-            <div className={className}>
-            {this.props.children[this.props.id]}
+export const Popup = (props) => {
+    let classNameContainer = props.isVisible ? "pop-up-container visible" : "pop-up-container";
+    let classNamePopup = props.isVisible ? "pop-up visible" : "pop-up";
+    return (
+        <div className={classNameContainer}>
+            <div className={classNamePopup}>
+                {props.children[props.id]}
             </div>
-        )
-    }
-        
-}
-//this.props.id
+        </div>
+    );
+}        

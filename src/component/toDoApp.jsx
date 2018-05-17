@@ -6,6 +6,7 @@ import { guid, filtration, getData } from '../helpers/utils.js';
 import { ItemWindow } from "./ItemWindow.jsx";
 import { Popup } from "./Popup.jsx";
 import { PopupDeleter } from "./PopupDeleter.jsx";
+import { PopupAdder } from "./PopupAdder.jsx";
 import { PopupEditor } from "./PopupEditor.jsx";
 import { FilterInput } from './FilterInput.jsx';
 
@@ -14,7 +15,8 @@ export class ToDoApp extends Component {
         super(props)
         this.state = {
             tasks: [{ id: '', title: '', description: '', addedDate: '' }],
-            activeId: '',
+            activeId: null,
+            deleteId: null,
             isSort: false,
             filterWord: '',
             PopupId: -1,
@@ -22,20 +24,17 @@ export class ToDoApp extends Component {
         }
     }
 
-    componentDidMount() {       
-      getData('src/data/tasks.json').then(tasks => {
-          this.setState({
-              tasks
-          });
-      }, error => {
-          console.log(error);
-      })
+    componentDidMount() {
+        getData('src/data/tasks.json').then(tasks => {
+            this.setState({
+                tasks
+            });
+        }, error => {
+            console.log(error);
+        })
     }
 
-    addTask = () => {
-        let title = prompt("Введите Таск", "Новое задание");
-        let description = prompt("Введите Описание", "Описание");
-        let id = guid();
+    addTask = (id, title, description) => {
         this.setState({
             tasks: [].concat(this.state.tasks, {
                 id,
@@ -72,9 +71,9 @@ export class ToDoApp extends Component {
         })
     }
 
-    filter = () => {
+    filter = (e) => {
         this.setState({
-            filterWord: ReactDOM.findDOMNode(this.refs.filterInput).value
+            filterWord: e.target.value
         })
     }
 
@@ -85,7 +84,15 @@ export class ToDoApp extends Component {
 
     }
 
+    openPopupAdder = () => {
+        this.setState({
+            PopupId: 2,
+            isVisible: true
+        })
+    }
+
     openPopupDeleter = () => {
+        if (this.state.activeId === "") return false;
         this.setState({
             PopupId: 0,
             isVisible: true
@@ -93,43 +100,51 @@ export class ToDoApp extends Component {
     }
 
     openPopupEditor = () => {
+        if (this.state.activeId === "") return false;
         this.setState({
             PopupId: 1,
             isVisible: true
         })
     }
 
-    deleteActiveTask = () => {
+    taskDeleteButton = (id) => {
         this.setState({
+            deleteId: id
+        })
+        this.openPopupDeleter();
+    }
+
+    commonButtonDelete = () => {
+        this.setState({
+            deleteId: this.state.activeId
+        })
+        this.openPopupDeleter();
+    }
+
+    deleteTask = () => {
+        this.setState({
+            activeId: null,
             tasks: [].concat(this.state.tasks).filter((item) => {
-                return item.id !== this.state.activeId;
+                return item.id !== this.state.deleteId;
             })
         })
     }
 
-    deleteTask = (id) => {
+    editActiveTask = (description, title, addedDate) => {
         this.setState({
-            tasks: [].concat(this.state.tasks).filter((item) => {
-                return item.id !== id;
+            tasks: [].concat(this.state.tasks).map((item) => {
+                if (item.id === this.state.activeId)
+                    return {
+                        id: item.id,
+                        title: title,
+                        description: description,
+                        addedDate: addedDate
+                    };
+                return item;
             })
         })
     }
 
-    editActiveTask = (description, title, addedDate) => {     
-            this.setState({
-                tasks: [].concat(this.state.tasks).map((item) => {
-                    if (item.id === this.state.activeId)
-                        return {
-                            id: item.id,
-                            title: title,
-                            description: description,
-                            addedDate: addedDate
-                        };
-                    return item;
-                })
-            })
-        }
-    
     closePopup = () => {
         this.setState({
             isVisible: false
@@ -137,35 +152,55 @@ export class ToDoApp extends Component {
     }
 
     render() {
-        let tasks = filtration(this.state.tasks, "title", this.state.filterWord);
-        let task = this.state.tasks.filter((item => {
-            return item.id === this.state.activeId;
-        }))[0] ? this.state.tasks.filter((item => {
-            return item.id === this.state.activeId;
-        }))[0] : {title: "", description: ""}
+        const { activeId, filterWord } = this.state;
+        let task = { title: "", description: "" };
+        let tasks = this.state.tasks;
+        if (tasks && tasks.length) {
+            tasks = filtration(tasks, "title", filterWord);
+            if (activeId) {
+                task = tasks.find((item => item.id === activeId));
+            }
+        }
         return (
             <div id="react-container">
                 <div id="list-container">
                     <div className="functions">
-                        <button onClick={this.addTask}>Add new Task</button>
-                        <button onClick={this.openPopupDeleter}>Удалить</button>
+                        <button onClick={this.openPopupAdder}>Add new Task</button>
+                        <button onClick={this.commonButtonDelete}>Удалить</button>
                         <button onClick={this.openPopupEditor}>Редактировать</button>
                         <button onClick={this.sort}>Sort</button>
-                        <FilterInput ref="filterInput" onInput={this.filter} />
+                        <FilterInput onInput={this.filter} />
+                    </div>
+                    <div className="headRow">
+                        <span className="head-title">Название</span>
+                        <span className="head-date">Дата изменения</span>
+                        <span className=""></span>
                     </div>
                     <ul>
-                        <li className="headRow">
-                            <span className="head-title">Название</span>
-                            <span className="head-date">Дата изменения</span>
-                            <span className="head-date">Удалить</span>
-                        </li>
-                        <TheList tasks={tasks} activeId={this.state.activeId} selectActive={this.selectActive} openToEdit={this.openPopupEditor} deleteTask={this.deleteTask}/>
+                        <TheList
+                            tasks={tasks}
+                            activeId={this.state.activeId}
+                            selectActive={this.selectActive}
+                            openToEdit={this.openPopupEditor}
+                            deleteTask={this.deleteTask}
+                            taskDeleteButton={this.taskDeleteButton} />
                     </ul>
                 </div>
                 <ItemWindow task={task} />
-                <Popup id={this.state.PopupId} isVisible={this.state.isVisible} activeId={this.state.activeId}>
-                    <PopupDeleter deleteActiveTask={this.deleteActiveTask} closePopup={this.closePopup} />
-                    <PopupEditor title={task.title} description={task.description} editActiveTask={this.editActiveTask} closePopup={this.closePopup}/>
+                <Popup id={this.state.PopupId}
+                    isVisible={this.state.isVisible}
+                    activeId={this.state.activeId}>
+                    <PopupDeleter
+                        deleteTask={this.deleteTask}
+                        closePopup={this.closePopup} />
+                    <PopupEditor
+                        title={task.title}
+                        description={task.description}
+                        editActiveTask={this.editActiveTask}
+                        closePopup={this.closePopup} />
+                    <PopupAdder
+                        addTask={this.addTask}
+                        closePopup={this.closePopup} />
                 </Popup>
             </div>
         )

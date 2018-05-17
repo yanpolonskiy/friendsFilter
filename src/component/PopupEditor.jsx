@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 export class PopupEditor extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             title: this.props.title,
             description: this.props.description
@@ -29,8 +30,8 @@ export class PopupEditor extends Component {
     }
 
     saveChanges = () => {
-        let description = this.state.description ? this.state.description : this.props.description;
-        let title = this.state.title ? this.state.title : this.props.title;
+        let description = this.state.description || this.props.description;
+        let title = this.state.title || this.props.title;
         this.props.editActiveTask(description, title, new Date().toString());
         this.props.closePopup();
     }
@@ -53,5 +54,4 @@ export class PopupEditor extends Component {
             </div>
         )
     }
-
 }
