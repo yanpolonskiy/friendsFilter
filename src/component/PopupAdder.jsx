@@ -6,7 +6,8 @@ export class PopupAdder extends Component {
         super(props);
         this.state = {
             title: '',
-            description: ''
+            description: '',
+            placeholder: 'Введите значение'
         }
     }
 
@@ -24,6 +25,8 @@ export class PopupAdder extends Component {
 
     addNew = () => {
         let id = guid();
+        if (!this.state.title || !this.state.description) 
+            return false;
         this.props.addTask(id, this.state.title, this.state.description);
         this.setState({
             description: '',
@@ -47,9 +50,11 @@ export class PopupAdder extends Component {
                 <input
                     value={this.state.title}
                     type="text"
+                    placeholder={this.state.placeholder}
                     onChange={this.changeTitle} />
                 <span>Введите описание</span>
                 <input value={this.state.description}
+                    placeholder={this.state.placeholder}
                     type="text"
                     onChange={this.changeDescription} />
                 <div className="buttons">

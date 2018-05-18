@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import { TheList } from './list.jsx';
-import { guid, filtration, getData } from '../helpers/utils.js';
+import { guid, filtration, getData, sortDate } from '../helpers/utils.js';
 import { ItemWindow } from "./ItemWindow.jsx";
 import { Popup } from "./Popup.jsx";
 import { PopupDeleter } from "./PopupDeleter.jsx";
@@ -17,7 +17,7 @@ export class ToDoApp extends Component {
             tasks: [{ id: '', title: '', description: '', addedDate: '' }],
             activeId: null,
             deleteId: null,
-            isSort: false,
+            sortDirection: false,
             filterWord: '',
             PopupId: -1,
             isVisible: false
@@ -40,34 +40,17 @@ export class ToDoApp extends Component {
                 id,
                 title: title,
                 description,
-                addedDate: new Date().toString()
+                addedDate: new Date().toDateString()
             }),
         })
     }
 
     sort = () => {
-        let _tasks = [];
-        if (this.state.isSort) {
-            _tasks = this.state.tasks.reverse();
-        }
-
-        else {
-            _tasks = [].concat(this.state.tasks).sort((a, b) => {
-                if (Date.parse(a.addedDate) < Date.parse(b.addedDate)) {
-                    return -1
-                }
-                if (Date.parse(a.addedDate) > Date.parse(b.addedDate)) {
-                    return 1
-                }
-                return 0
-            })
-            this.setState({
-                isSort: true
-            })
-        }
-
         this.setState({
-            tasks: _tasks,
+            tasks: this.state.sortDirection ?
+                [].concat(this.state.tasks).sort(sortDate) :
+                [].concat(this.state.tasks).sort(sortDate).reverse(),
+            sortDirection: !this.state.sortDirection
         })
     }
 

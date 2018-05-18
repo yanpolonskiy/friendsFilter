@@ -9,7 +9,6 @@ export function guid() {
 
 export function filtration(array, property, word) {
     if (word === "") return array;
-    console.log("sss");
     return array.filter((item) => {
         return item[property].toLowerCase().indexOf(word.toLowerCase()) !== -1
     })
@@ -33,4 +32,14 @@ export function getData(url) {
         };
         req.send();
     })
+}
+
+export function sortDate(a, b) {
+    if (Date.parse(a.addedDate) < Date.parse(b.addedDate)) {
+        return -1
+    }
+    if (Date.parse(a.addedDate) > Date.parse(b.addedDate)) {
+        return 1
+    }
+    return 0
 }
