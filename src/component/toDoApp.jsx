@@ -6,7 +6,6 @@ import { guid, filtration, getData, sortDate } from '../helpers/utils.js';
 import { ItemWindow } from "./ItemWindow.jsx";
 import { Popup } from "./Popup.jsx";
 import { PopupDeleter } from "./PopupDeleter.jsx";
-import { PopupAdder } from "./PopupAdder.jsx";
 import { PopupEditor } from "./PopupEditor.jsx";
 import { FilterInput } from './FilterInput.jsx';
 
@@ -83,7 +82,7 @@ export class ToDoApp extends Component {
     }
 
     openPopupEditor = () => {
-        if (this.state.activeId === "") return false;
+        if (!this.state.activeId) return false;
         this.setState({
             PopupId: 1,
             isVisible: true
@@ -98,6 +97,7 @@ export class ToDoApp extends Component {
     }
 
     commonButtonDelete = () => {
+        if (!this.state.activeId) return false;
         this.setState({
             deleteId: this.state.activeId
         })
@@ -119,9 +119,9 @@ export class ToDoApp extends Component {
                 if (item.id === this.state.activeId)
                     return {
                         id: item.id,
-                        title: title,
-                        description: description,
-                        addedDate: addedDate
+                        title,
+                        description,
+                        addedDate,
                     };
                 return item;
             })
@@ -136,7 +136,7 @@ export class ToDoApp extends Component {
 
     render() {
         const { activeId, filterWord } = this.state;
-        let task = { title: "", description: "" };
+        let task = { title: "11", description: "" };
         let tasks = this.state.tasks;
         if (tasks && tasks.length) {
             tasks = filtration(tasks, "title", filterWord);
@@ -144,14 +144,15 @@ export class ToDoApp extends Component {
                 task = tasks.find((item => item.id === activeId));
             }
         }
+        
         return (
             <div id="react-container">
                 <div id="list-container">
                     <div className="functions">
-                        <button onClick={this.openPopupAdder}>Add new Task</button>
+                        <button onClick={this.openPopupAdder}>Добавить</button>
                         <button onClick={this.commonButtonDelete}>Удалить</button>
                         <button onClick={this.openPopupEditor}>Редактировать</button>
-                        <button onClick={this.sort}>Sort</button>
+                        <button onClick={this.sort}>Сортировка</button>
                         <FilterInput onInput={this.filter} />
                     </div>
                     <div className="headRow">
@@ -171,19 +172,22 @@ export class ToDoApp extends Component {
                 </div>
                 <ItemWindow task={task} />
                 <Popup id={this.state.PopupId}
-                    isVisible={this.state.isVisible}
-                    activeId={this.state.activeId}>
+                    isVisible={this.state.isVisible}>
                     <PopupDeleter
                         deleteTask={this.deleteTask}
                         closePopup={this.closePopup} />
                     <PopupEditor
+                        PopupId={this.state.PopupId}
                         title={task.title}
                         description={task.description}
                         editActiveTask={this.editActiveTask}
                         closePopup={this.closePopup} />
-                    <PopupAdder
+                    <PopupEditor
+                        PopupId={this.state.PopupId}
                         addTask={this.addTask}
-                        closePopup={this.closePopup} />
+                        closePopup={this.closePopup}
+                        title=''
+                        description='' />
                 </Popup>
             </div>
         )

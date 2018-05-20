@@ -9,7 +9,7 @@ export const PopupDeleter = props => {
             <div className="pop-up-deleter">
             <span>Вы действительно хотите удалить запись?</span>
             <div className="buttons"><button onClick={confirm}>Да</button>
-            <button onClick={props.negative}>Нет</button></div> 
+            <button onClick={props.closePopup}>Нет</button></div> 
             </div>
         )        
 }

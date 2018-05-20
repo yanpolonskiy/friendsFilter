@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
+import { guid } from '../helpers/utils.js';
 
 export class PopupEditor extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             title: this.props.title,
             description: this.props.description
         }
+        console.log(this.state);
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {        
+        console.log(this.state);
         this.setState({
             title: nextProps.title,
-            description: nextProps.description
-        })
+            description: nextProps.description 
+        })                      
     }
 
     changeTitle = (e) => {
@@ -30,9 +32,16 @@ export class PopupEditor extends Component {
     }
 
     saveChanges = () => {
-        let description = this.state.description || this.props.description;
-        let title = this.state.title || this.props.title;
-        this.props.editActiveTask(description, title, new Date().toString());
+        if (this.props.PopupId === 1) {         
+            this.props.editActiveTask(this.state.description,
+                this.state.title,
+                new Date().toDateString());
+        }
+        else {
+            if (!this.state.title || !this.state.description)
+                return false;
+            this.props.addTask(guid(), this.state.title, this.state.description);
+        }
         this.props.closePopup();
     }
 
@@ -46,7 +55,10 @@ export class PopupEditor extends Component {
                 <span>Введите заголовок</span>
                 <input type="text" value={this.state.title} onChange={this.changeTitle} />
                 <span>Введите описание</span>
-                <input type="text" value={this.state.description} onChange={this.changeDescription} />
+                <textarea
+                    type="text"
+                    value={this.state.description}
+                    onChange={this.changeDescription} />
                 <div className="buttons">
                     <button onClick={this.saveChanges}>Сохранить изменения</button>
                     <button onClick={this.negative}>Отмена</button>
