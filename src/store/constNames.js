@@ -1,0 +1,2 @@
+export const LOAD_CITIES_LIST = "LOAD_CITIES_LIST";
+export const SORT_CITIES_LIST = "SORT_CITIES_LIST";
