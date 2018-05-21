@@ -43,3 +43,9 @@ export function sortDate(a, b) {
     }
     return 0
 }
+
+export function sortObjectByName(a, b) {
+    if (a.name > b.name) return 1;
+    if (a.name < b.name) return -1;
+    if (a.name = b.name) return 0;
+}

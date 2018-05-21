@@ -15,168 +15,32 @@
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
+
 #container {
     margin: 10% auto;
-    width: 800px;
+    width: 400px;
     height: 400px;
-}
 
 #react-container {    
     height: 100%;
     width: 100%;
     text-align: center;
     display: flex;
-   position: relative;
+    flex-direction: column;
    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-
-    #list-container {
-        flex: 1 0 62%;
-        display: flex;        
-        flex-direction: column;
-        height: 100%;
-    }
-
-    .task-container {
-        border: 1px solid black;
-        display: flex;     
-        height: 100%;
-        flex-direction: column;
-        flex: 1 0 38%;
-        padding-top: 25px;
-        overflow-y: scroll;
-        span {
-            width: 100%;
-            white-space: wrap;
-            word-wrap: break-word;
-            flex: 1 0 auto;
-        }
-    }
-
-    .functions {
-        display: flex;
-        height: 20px;
-        justify-content: space-around;
-        button {
-            flex: 1 0 10%;
-        }
-        input {
-            flex: 1 1 auto;
-        }
-    }
-
-    .headRow {
-        display: flex;
-        justify-content: space-between;
-        padding-left: 5%;
-        background-color: grey;    
-        span {
-            width: 130px;
-        }
-        .head-date {
-            margin-left: 10%;
-        }
-    }    
-
+   .functions {
+    border: 1px solid black;
+   }
     ul {
-        overflow-y: auto;
+        border: 1px solid black;
         height: 100%;
         list-style: none;
-        display: flex;
-        flex-direction: column;    
-        background-color: lightgrey;    
+        overflow-y: auto;
         li {
-            border-bottom: 0.5px solid grey;
-            justify-content: space-between;
-            display: flex;
-            padding-left: 5%;
-            flex: 1 0 25px;
-            max-height: 25px;            
-            align-items: center;
-            text-overflow: ellipsis;
-            &.active {
-                background-color: orange;
-            }            
-            button {
-                cursor: pointer;
-                height: 100%;
-            }
-            span {
-                display: block;
-                width: 130px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis
+            &:not(:last-child) {
+                border-bottom: 1px dotted black;
             }
         }
-    }
-         
+    }    
 }
-
-.pop-up-container {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: rgba(0,0,0,0.3);
-    visibility: hidden;
-    &.visible {
-        visibility: visible;
-    }
-}
-.pop-up {
-    position: absolute;
-    top: 25%;
-    left: 35%;
-    width: 350px;
-    height: 300px;
-    display: flex;
-    visibility: hidden;
-    background-color: seashell;
-    border: 1px solid sienna;
-    z-index: 1000;
-    &.visible {
-        visibility: visible;
-    }
-}
-
-.pop-up-deleter {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    button {      
-            min-width: 100px;
-            
-    }
-}
-
-
-.pop-up-editor, .pop-up-adder {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    input {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        width: 50%;
-    }
-    textarea {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        width: 50%;
-        height: 25%;
-        resize: none;
-    }
-    .buttons {
-        display: flex;
-        width: 50%;
-        justify-content: space-around;
-        button {
-            width: 200px;
-        }
-    }
 }
