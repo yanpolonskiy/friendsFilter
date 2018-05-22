@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import './CitiesApp.less';
 
 import { guid, getData, filtration } from '../../helpers/utils.js';
 import { sortCitiesList, loadCitiesList, filterCitiesList, changeFilterWord } from '../../store/actions';
@@ -31,15 +32,13 @@ class CitiesApp extends Component {
         return (
             <div id="react-container">
                 <div className="functions">
-                    <button onClick={this.sort}>Сортировка</button>
-                    <FilterInput onInput={this.changeFilterWord} />
+                    <button className="citiesSort" onClick={this.sort}>Сортировка</button>
+                    <FilterInput className="citiesInput" onInput={this.changeFilterWord} />
                 </div>
                 <div className="headRow">
                     <span className="ListTitle"></span>
-                </div>
-                <ul>
+                </div>             
                     <TheList citiesList={this.props.citiesList} />
-                </ul>
             </div>
         )
     }
