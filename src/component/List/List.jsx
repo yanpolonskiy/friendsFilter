@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import CityItem from './CityItem.jsx';
-import { guid, filtration } from '../helpers/utils.js';
-import { FilterInput } from './FilterInput.jsx';
+import CityItem from '../CityItem/CityItem.jsx';
+import { guid, filtration } from '../../helpers/utils.js';
 
 export const TheList = (props) => {
     return (

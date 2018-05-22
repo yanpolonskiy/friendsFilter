@@ -4,7 +4,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import { rootReducer } from './store/reducers';
-import CitiesApp from './component/CitiesApp.jsx';
+import CitiesApp from './component/CitiesApp/CitiesApp.jsx';
 
 
 const store = createStore(rootReducer,
