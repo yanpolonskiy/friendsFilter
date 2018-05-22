@@ -17,7 +17,6 @@ export const rootReducer = (state = initialState, action) => {
             };
 
         case SORT_CITIES_LIST:
-            console.log(state.sortOrder);
             if (state.sortOrder === 0)
                 return {
                     ...state,

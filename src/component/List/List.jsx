@@ -5,8 +5,8 @@ import { guid, filtration } from '../../helpers/utils.js';
 
 export const TheList = (props) => {
     return (
-       props.citiesList.map((city, i) =>
+        props.citiesList.map((city, i) =>
             <CityItem key={guid()}
-                cityName={ city.name } {...city} />)
+                cityName={city.name} {...city} />)
     );
 }

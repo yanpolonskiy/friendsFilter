@@ -12,11 +12,11 @@ class CitiesApp extends Component {
     componentDidMount() {
         const { loadCitiesList } = this.props;
         getData('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
-        .then(loadedList => {
-            loadCitiesList(loadedList);
-        }, error => {
-            console.log(error);
-        })
+            .then(loadedList => {
+                loadCitiesList(loadedList);
+            }, error => {
+                console.log(error);
+            })
     }
 
     sort = () => {
