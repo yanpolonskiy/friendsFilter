@@ -1,16 +1,15 @@
-import { LOAD_CITIES_LIST, SORT_CITIES_LIST } from './constNames.js';
+import { LOAD_CITIES_LIST, SORT_CITIES_LIST } from '../constants/storeConstans';
 import { sortObjectByName } from '../helpers/utils'
 
-export const loadCitiesList = (CitiesList) => {
+export const loadCitiesList = (сitiesList) => {
     return {
         type: LOAD_CITIES_LIST,
-        payload: CitiesList
+        payload: сitiesList
     }
 }
 
-export const sortCitiesList = (CitiesList) => {
+export const sortCitiesList = () => {
     return {
         type: SORT_CITIES_LIST,
-        payload: CitiesList.sort(sortObjectByName)
     }
 }

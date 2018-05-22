@@ -6,11 +6,8 @@ import { FilterInput } from './FilterInput.jsx';
 
 export const TheList = (props) => {
     return (
-       props.CitiesList.map((city, i) =>
-            <CityItem key={i}
+       props.citiesList.map((city, i) =>
+            <CityItem key={guid()}
                 cityName={ city.name } {...city} />)
     );
 }
-
-
-/*    */

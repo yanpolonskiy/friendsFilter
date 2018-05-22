@@ -6,13 +6,9 @@ import { connect } from 'react-redux';
 import { guid, getData } from '../helpers/utils.js';
 import { sortCitiesList, loadCitiesList } from '../store/actions';
 import { TheList } from './list.jsx';
-//import { FilterInput } from './FilterInput.jsx';
+import { FilterInput } from './FilterInput.jsx';
 
 class CitiesApp extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     componentDidMount() {
         const { loadCitiesList } = this.props;
         getData('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(loadedList => {
@@ -23,24 +19,24 @@ class CitiesApp extends Component {
     }
 
     sort = () => {
-        sortCitiesList(this.props.CitiesList);
+        this.props.sortCitiesList();
     }
 
     filter = (e) => {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div id="react-container">
-                <div className="functions">
+                <div className="functions">                   
                     <button onClick={this.sort}>Сортировка</button>
+                    <FilterInput onInput={this.filter} />
                 </div>
                 <div className="headRow">
                     <span className="ListTitle"></span>
                 </div>
                 <ul>
-                    <TheList CitiesList={this.props.CitiesList} />
+                    <TheList citiesList={this.props.citiesList} />
                 </ul>
             </div>
         )
@@ -49,17 +45,20 @@ class CitiesApp extends Component {
 
 const putStateToProps = (state) => {
     return {
-        CitiesList: state.CitiesList
+        citiesList: state.citiesList
     };
 }
 
 const putActionsToProps = (dispatch) => {
-    return bindActionCreators({ loadCitiesList, sortCitiesList }, dispatch);
+    return {
+        loadCitiesList: bindActionCreators(loadCitiesList, dispatch),
+        sortCitiesList: bindActionCreators(sortCitiesList, dispatch)
+    }
 };
-
+// return bindActionCreators({ loadCitiesList, sortCitiesList }, dispatch);
 
 export default connect(putStateToProps, putActionsToProps)(CitiesApp);
-//  <FilterInput onInput={this.filter} />
+
 
 
 
