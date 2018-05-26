@@ -1,0 +1,38 @@
+body {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#react-container {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    border: 1px inset rgb(190, 101, 74);
+    border-radius: 20px 20px 20px 20px;
+    .head-box {
+        background-color: #FE8663;
+        height: 50px;
+        border-radius: 20px 20px 0 0;
+        padding-top: 10px;
+        font-size: 24px;
+    }
+    .head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #FE8663;
+        padding-right: 18px;
+        span {
+            flex: 1 0 40%;
+            &:last-child {
+                flex: 1 0 10%;
+            }
+            &:first-child {
+                flex: 1 0 10%;
+            }
+        }
+    }
+}
