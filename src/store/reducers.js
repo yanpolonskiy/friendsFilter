@@ -1,5 +1,5 @@
 import * as constants from '../constants/storeConstans';
-import { sortObjectByName } from '../helpers/utils.js';
+import { getIdsFromCookie } from '../helpers/utils.js';
 import { initialState } from './store';
 
 export const friendsListReducer = (state = initialState, action) => {
@@ -7,7 +7,8 @@ export const friendsListReducer = (state = initialState, action) => {
         case constants.LOAD_FRIENDS_LIST:
             return {
                 ...state,
-                friendsList: action.payload
+                friendsList: action.payload,
+                filterIds: getIdsFromCookie()
             };
 
         case constants.ADD_ID_FRIENDS_FILTER:

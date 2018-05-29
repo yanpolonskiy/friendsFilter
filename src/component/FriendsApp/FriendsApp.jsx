@@ -11,7 +11,7 @@ import { FilterInput } from '../FilterInput/FilterInput.jsx';
 
 class FriendsApp extends Component {
     componentDidMount() {
-        const { loadFriendsList } = this.props;
+        const { loadFriendsList, loadFilteredIds } = this.props;
         utils.initializeVk(6489235);
         utils.loginVk();
         utils.loadFriendsData().then(response => {
@@ -21,10 +21,12 @@ class FriendsApp extends Component {
 
     addIdToFilterList = (id) => {
         this.props.addId(id);
+        utils.saveIdsToCookie(this.props.filterIds);
     }
 
     removeIdFromFilterList = (id) => {
-        this.props.removeId(id);
+        this.props.removeId(id);        
+        utils.saveIdsToCookie(this.props.filterIds);
     }
 
     changeSearchWord = (e) => {
@@ -70,7 +72,7 @@ class FriendsApp extends Component {
 
 const putStateToProps = (state) => {
     const friendsList = state.friendsListReducer.friendsList;
-    const filterIds = state.friendsListReducer.filterIds;
+    const filterIds = utils.getIdsFromCookie();
     return {
         friendsList: friendsList.sort(utils.vkFriendsSortByBirthDate),
         filterIds,
@@ -85,7 +87,7 @@ const putActionsToProps = (dispatch) => {
         addId: bindActionCreators(actions.addId, dispatch),
         removeId: bindActionCreators(actions.removeId, dispatch),
         changeSearchWordFilter: bindActionCreators(actions.changeSearchWordFilter, dispatch),
-        changeSearchWord: bindActionCreators(actions.changeSearchWord, dispatch)
+        changeSearchWord: bindActionCreators(actions.changeSearchWord, dispatch),
     }
 };
 

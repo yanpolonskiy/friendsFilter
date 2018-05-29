@@ -1,5 +1,5 @@
 import * as constants from '../constants/storeConstans';
-import { sortObjectByName } from '../helpers/utils'
+import { sortObjectByName, getIdsFromCookie } from '../helpers/utils'
 
 export const loadFriendsList = (friendsList) => {
     return {

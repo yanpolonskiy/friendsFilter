@@ -7,6 +7,25 @@ export function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
+export function saveIdsToCookie(array) {
+    let string = array.join(',');
+    string = encodeURIComponent(string);
+    document.cookie = "ids=" + string + "; expires=Tue, 19 Jan 2038 03:14:07 GMT";
+}
+
+export function getIdsFromCookie() {
+    let string = getCookie('ids');
+    if (string === undefined) return [];
+    return string.split(',');
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ))
+    return matches ? decodeURIComponent(matches[1]) : undefined
+}
+
 export function filtration(array, properties, word) {
     if (array.length < 1) return [];
     if (word === "") return array;
