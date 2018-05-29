@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import './FriendsApp.less';
 
 import * as utils from '../../helpers/utils.js';
@@ -9,6 +11,7 @@ import * as actions from '../../store/actions';
 import { TheList } from '../List/List.jsx';
 import { FilterInput } from '../FilterInput/FilterInput.jsx';
 
+@DragDropContext(HTML5Backend)
 class FriendsApp extends Component {
     componentDidMount() {
         const { loadFriendsList, loadFilteredIds } = this.props;
@@ -72,7 +75,7 @@ class FriendsApp extends Component {
 
 const putStateToProps = (state) => {
     const friendsList = state.friendsListReducer.friendsList;
-    const filterIds = utils.getIdsFromCookie();
+    const filterIds = state.friendsListReducer.filterIds;
     return {
         friendsList: friendsList.sort(utils.vkFriendsSortByBirthDate),
         filterIds,
