@@ -1,17 +1,40 @@
-import { LOAD_FRIENDS_LIST } from '../constants/storeConstans';
+import * as constants from '../constants/storeConstans';
 import { sortObjectByName } from '../helpers/utils.js';
+import { initialState } from './store';
 
-const initialState = {
-    friendsList: []
-}
-
-export const rootReducer = (state = initialState, action) => {
+export const friendsListReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOAD_FRIENDS_LIST:
+        case constants.LOAD_FRIENDS_LIST:
             return {
                 ...state,
                 friendsList: action.payload
             };
+
+        case constants.ADD_ID_FRIENDS_FILTER:
+            return {
+                ...state,
+                filterIds: [].concat(state.filterIds, action.payload)
+            };
+
+        case constants.REMOVE_ID_FRIENDS_FILTER:
+            return {
+                ...state,
+                filterIds: state.filterIds.filter((item) => {
+                    return item !== action.payload;
+                })
+            }
+
+        case constants.CHANGE_SEARCH_WORD:
+            return {
+                ...state,
+                searchWord: action.payload
+            }
+
+        case constants.CHANGE_SEARCH_WORD_FILTER:
+            return {
+                ...state,
+                searchWordFilter: action.payload
+            }
     }
     return state;
 }

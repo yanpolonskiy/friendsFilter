@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 import { parseVkDate, getVkAge } from '../../helpers/utils.js';
 
 import './FriendsItem.less';
-export default (props) => {    
+export default (props) => {
+    let filtration = () => {
+        props.filter(props.friendId);
+    }
     return (
         <li className="friends-item">
-            <div><img src={props.friendPhoto}/></div>
-            <div><span className="friendsFullName">{props.friendFullName}</span></div>
-            <div><span className="birth-date">{parseVkDate(props.friendBirthDate)}</span></div>
-            <div><span className="age">{getVkAge(props.friendBirthDate)}</span></div>
+            <div className="photo">
+                <img src={props.friendPhoto} />
+            </div>
+            <div className="friend-full-name">
+                <span>{props.friendFullName}</span>
+            </div>
+            <button onClick={filtration}>
+                OK
+            </button>
         </li>)
 }
 

@@ -7,6 +7,45 @@ export function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
+export function filtration(array, properties, word) {
+    if (array.length < 1) return [];
+    if (word === "") return array;
+    return array.filter((item) => {
+        let flag = false;
+        for (let i = 0; i < properties.length; i++) {
+            if (item[properties[i]].toLowerCase().indexOf(word.toLowerCase()) !== -1)
+                flag = true;
+        }
+        return flag;
+    })
+}
+
+/** 
+ * @param array array to be filtered 
+ * @param ids array of ids for filtration
+ * @param isFilter if true - output array contains only elements with ids from ids, 
+ * if false output array contains only elements which id is not in ids
+ */
+
+export function filterByIds(array, ids, isFilter) {
+    if (ids.length < 1) {
+        if (isFilter)
+            return [];
+        if (!isFilter)
+            return array;
+    }
+    if (isFilter)
+        return array.filter((item) => {
+            return (ids.indexOf(item.id) !== -1);
+        })
+    if (!isFilter)
+        return array.filter((item) => {
+            return (ids.indexOf(item.id) === -1);
+        })
+}
+
+
+
 export function initializeVk(id) {
     VK.init({
         apiId: id
