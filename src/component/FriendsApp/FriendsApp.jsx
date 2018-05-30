@@ -8,7 +8,7 @@ import './FriendsApp.less';
 
 import * as utils from '../../helpers/utils.js';
 import * as actions from '../../store/actions';
-import { TheList } from '../List/List.jsx';
+import TheList from '../List/List.jsx';
 import { FilterInput } from '../FilterInput/FilterInput.jsx';
 
 @DragDropContext(HTML5Backend)
@@ -64,10 +64,12 @@ class FriendsApp extends Component {
                 </div>
                 <div className="lists-container">
                     <TheList
+                        isFilterList = {0}
                         friendsList={commonList}
                         text="Ваши друзья"
                         filter={this.addIdToFilterList} />
                     <TheList
+                        isFilterList = {1}
                         friendsList={filterList}
                         text="Друзья в списке"
                         filter={this.removeIdFromFilterList} />

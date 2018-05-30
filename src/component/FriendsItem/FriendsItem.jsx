@@ -9,7 +9,10 @@ const ItemTypes = {
 
 const friendSource = {
     beginDrag(props) {
-        return {};
+        console.log(props);
+        return {
+            friendId: props.friendId
+        };
     }
 };
 
@@ -32,11 +35,26 @@ export default class FriendsItem extends Component {
         this.filter(this.friendId);
     }
 
+    onDragStart(event) {
+        event.dataTransfer.effectAllowed='move';
+        event.dataTransfer.setDragImage(event.target,100,100);
+        event.dataTransfer.setData("Text", 123);
+        return true;
+    }
+
+    drag(event) {
+        let a = event.dataTransfer.getData('Text');
+        console.log(a);
+        // event.target.textContent = data;
+    }
+
     render() {
         const { connectDragSource, isDragging } = this.props;
         return (
             connectDragSource(
                 <li className="friends-item"
+                    onDrag={this.drag.bind(this)}
+                    onDragStart={this.onDragStart.bind(this)}
                     style={{
                         opacity: isDragging ? 0.5 : 1,
                         cursor: isDragging ? 'move' : 'pointer'
