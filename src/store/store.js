@@ -7,7 +7,8 @@ export const initialState = {
     friendsList: [],
     filterIds: [],
     searchWord: '',
-    searchWordFilter: ''
+    searchWordFilter: '',
+    draggableId: 1
 }
 
 const allReducers = combineReducers({

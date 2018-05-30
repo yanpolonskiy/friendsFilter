@@ -11,7 +11,6 @@ import * as actions from '../../store/actions';
 import TheList from '../List/List.jsx';
 import { FilterInput } from '../FilterInput/FilterInput.jsx';
 
-@DragDropContext(HTML5Backend)
 class FriendsApp extends Component {   
 
     componentDidMount() {
@@ -24,6 +23,10 @@ class FriendsApp extends Component {
         }, error => { console.log(error.message); });
     }
 
+    componentDidUpdate() {
+        utils.saveIdsToCookie(this.props.filterIds);
+    }
+
     addIdToFilterList = (id) => {
         this.props.addId(id);
     }
@@ -32,9 +35,13 @@ class FriendsApp extends Component {
         this.props.removeId(id);                
     }
 
-    componentDidUpdate() {
-        utils.saveIdsToCookie(this.props.filterIds);
-    }
+   updateDragId = (id) => {
+       this.props.changeDraggableId(id);
+   }
+
+   updateDragFilter = (isFilter) => {
+       this.props.updateFilterByDrag(isFilter);
+   }
 
     changeSearchWord = (e) => {
         this.props.changeSearchWord(e.target.value);
@@ -65,11 +72,15 @@ class FriendsApp extends Component {
                 <div className="lists-container">
                     <TheList
                         isFilterList = {0}
+                        updateDragId = {this.updateDragId}
+                        updateDragFilter = {this.updateDragFilter}
                         friendsList={commonList}
                         text="Ваши друзья"
                         filter={this.addIdToFilterList} />
                     <TheList
                         isFilterList = {1}
+                        updateDragId = {this.updateDragId}
+                        updateDragFilter = {this.updateDragFilter}
                         friendsList={filterList}
                         text="Друзья в списке"
                         filter={this.removeIdFromFilterList} />
@@ -97,11 +108,14 @@ const putActionsToProps = (dispatch) => {
         removeId: bindActionCreators(actions.removeId, dispatch),
         changeSearchWordFilter: bindActionCreators(actions.changeSearchWordFilter, dispatch),
         changeSearchWord: bindActionCreators(actions.changeSearchWord, dispatch),
-        loadFilteredIds: bindActionCreators(actions.loadFriendsIds, dispatch)
+        loadFilteredIds: bindActionCreators(actions.loadFriendsIds, dispatch),
+        changeDraggableId: bindActionCreators(actions.changeDraggableId, dispatch),
+        updateFilterByDrag: bindActionCreators(actions.updateFilterByDrag, dispatch)
     }
 };
 
-export default connect(putStateToProps, putActionsToProps)(FriendsApp);
+let App = DragDropContext(HTML5Backend)(FriendsApp);
+export default connect(putStateToProps, putActionsToProps)(App);
 
 
 

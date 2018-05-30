@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
+import { connect } from 'react-redux';
 import { parseVkDate, getVkAge } from '../../helpers/utils.js';
 import './FriendsItem.less';
+import { ItemTypes } from '../../constants/dndConstants.js';
 
-const ItemTypes = {
-    friend: 'friend'
-};
 
 const friendSource = {
     beginDrag(props) {
-        console.log(props);
-        return {
-            friendId: props.friendId
-        };
+      props.updateDragId(props.friendId);
+        return {};
     }
 };
 
@@ -23,8 +20,7 @@ function collect(connect, monitor) {
     }
 }
 
-@DragSource(ItemTypes.friend, friendSource, collect)
-export default class FriendsItem extends Component {
+class FriendsItem extends Component {
     constructor(props) {
         super(props);
         this.filter = this.props.filter;
@@ -36,28 +32,26 @@ export default class FriendsItem extends Component {
     }
 
     onDragStart(event) {
-        event.dataTransfer.effectAllowed='move';
-        event.dataTransfer.setDragImage(event.target,100,100);
-        event.dataTransfer.setData("Text", 123);
+        
         return true;
     }
 
     drag(event) {
-        let a = event.dataTransfer.getData('Text');
-        console.log(a);
         // event.target.textContent = data;
     }
 
     render() {
-        const { connectDragSource, isDragging } = this.props;
+        const { connectDragSource, isDragging, test } = this.props;
+        //if (isDragging) console.log(this.props);
         return (
             connectDragSource(
                 <li className="friends-item"
                     onDrag={this.drag.bind(this)}
                     onDragStart={this.onDragStart.bind(this)}
                     style={{
-                        opacity: isDragging ? 0.5 : 1,
-                        cursor: isDragging ? 'move' : 'pointer'
+                        opacity: isDragging ? 0.1 : 1,
+                        backgroundColor: isDragging ? "blue" : "white",
+                        cursor: 'move'
                     }}>
                     <div className="photo">
                         <img src={this.props.friendPhoto} />
@@ -72,3 +66,5 @@ export default class FriendsItem extends Component {
             ))
     }
 }
+
+export default DragSource(ItemTypes.friend, friendSource, collect)(FriendsItem);

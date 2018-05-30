@@ -1,5 +1,5 @@
 import * as constants from '../constants/storeConstans';
-import { getIdsFromCookie } from '../helpers/utils.js';
+import { getIdsFromCookie, updateFilterIds } from '../helpers/utils.js';
 import { initialState } from './store';
 
 export const friendsListReducer = (state = initialState, action) => {
@@ -40,6 +40,18 @@ export const friendsListReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filterIds: action.payload
+            }
+        case constants.CHANGE_DRAGGABLE_ID:
+            console.log(action.payload);
+            return {
+                ...state,
+                dragabbleId: action.payload
+            }
+
+        case constants.UPDATE_FILTER_BY_DRAG:
+            return {
+                ...state,
+                filterIds: updateFilterIds(state.draggableId, state.filterIds, action.isFilter)
             }
     }
     return state;
