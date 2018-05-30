@@ -42,16 +42,15 @@ export const friendsListReducer = (state = initialState, action) => {
                 filterIds: action.payload
             }
         case constants.CHANGE_DRAGGABLE_ID:
-            console.log(action.payload);
             return {
                 ...state,
-                dragabbleId: action.payload
+                dragableId: action.payload
             }
 
         case constants.UPDATE_FILTER_BY_DRAG:
             return {
                 ...state,
-                filterIds: updateFilterIds(state.draggableId, state.filterIds, action.isFilter)
+                filterIds: updateFilterIds(state.dragableId, state.filterIds, action.isFilter)
             }
     }
     return state;

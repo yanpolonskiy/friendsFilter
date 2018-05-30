@@ -8,7 +8,7 @@ export const initialState = {
     filterIds: [],
     searchWord: '',
     searchWordFilter: '',
-    draggableId: 1
+    draggableId: ''
 }
 
 const allReducers = combineReducers({

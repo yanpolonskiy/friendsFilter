@@ -9,7 +9,7 @@ import { guid, filtration } from '../../helpers/utils.js';
 
 const listTarget = {
     drop(props) {
-        props.updateDragFilter(props.friendId, props.isFilterList)
+        props.updateDragFilter(props.isFilterList)
     }
 }
 

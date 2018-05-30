@@ -158,29 +158,28 @@ export function vkFriendsSortByBirthDate(a, b) {
 }
 
 function isInArray(id, array) {
-    console.log(id);
-    console.log(array);
-    console.log(array.indexOf(id) !== -1);
     return array.indexOf(id) !== -1;
 }
 
 export function updateFilterIds(id, filterIds, isFilter) {
-
-    if (isInArray(id, filterIds)) {
-        if (isFilter) {
+    if (isFilter) {
+        if (isInArray(id, filterIds)) {
             return filterIds;
         } else {
-            return filterIds.filter((item) => {
-                item !== id;
-            })
-        }
-    } else {
-        if (isFilter) {
             return [].concat(filterIds, id);
+        }
+    }
+
+    if (!isFilter) {
+        if (isInArray(id, filterIds)) {
+            return filterIds.filter((item) => {
+                return item !== id;
+            })
         } else {
             return filterIds;
         }
     }
+
 }
 
 

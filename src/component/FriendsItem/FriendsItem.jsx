@@ -49,8 +49,7 @@ class FriendsItem extends Component {
                     onDrag={this.drag.bind(this)}
                     onDragStart={this.onDragStart.bind(this)}
                     style={{
-                        opacity: isDragging ? 0.1 : 1,
-                        backgroundColor: isDragging ? "blue" : "white",
+                        backgroundColor: isDragging ? "white" : "white",
                         cursor: 'move'
                     }}>
                     <div className="photo">

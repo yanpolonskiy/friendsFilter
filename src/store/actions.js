@@ -44,7 +44,6 @@ export const changeSearchWordFilter = (word) => {
 }
 
 export const changeDraggableId = (id) => {
-    console.log(id);
     return {
         type: constants.CHANGE_DRAGGABLE_ID,
         payload: id
@@ -54,6 +53,6 @@ export const changeDraggableId = (id) => {
 export const updateFilterByDrag = (isFilter) => {
     return {
         type: constants.UPDATE_FILTER_BY_DRAG,
-        isFilter: isFilter
+        isFilter,
     }
 }
