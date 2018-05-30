@@ -12,9 +12,11 @@ import { TheList } from '../List/List.jsx';
 import { FilterInput } from '../FilterInput/FilterInput.jsx';
 
 @DragDropContext(HTML5Backend)
-class FriendsApp extends Component {
+class FriendsApp extends Component {   
+
     componentDidMount() {
         const { loadFriendsList, loadFilteredIds } = this.props;
+        loadFilteredIds();
         utils.initializeVk(6489235);
         utils.loginVk();
         utils.loadFriendsData().then(response => {
@@ -24,11 +26,13 @@ class FriendsApp extends Component {
 
     addIdToFilterList = (id) => {
         this.props.addId(id);
-        utils.saveIdsToCookie(this.props.filterIds);
     }
 
     removeIdFromFilterList = (id) => {
-        this.props.removeId(id);        
+        this.props.removeId(id);                
+    }
+
+    componentDidUpdate() {
         utils.saveIdsToCookie(this.props.filterIds);
     }
 
@@ -91,6 +95,7 @@ const putActionsToProps = (dispatch) => {
         removeId: bindActionCreators(actions.removeId, dispatch),
         changeSearchWordFilter: bindActionCreators(actions.changeSearchWordFilter, dispatch),
         changeSearchWord: bindActionCreators(actions.changeSearchWord, dispatch),
+        loadFilteredIds: bindActionCreators(actions.loadFriendsIds, dispatch)
     }
 };
 

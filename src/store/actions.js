@@ -8,6 +8,13 @@ export const loadFriendsList = (friendsList) => {
     };
 };
 
+export const loadFriendsIds = () => {
+    return {
+        type: constants.LOAD_FILTERED_IDS,
+        payload: getIdsFromCookie()
+    }
+}
+
 export const addId = (id) => {
     return {
         type: constants.ADD_ID_FRIENDS_FILTER,

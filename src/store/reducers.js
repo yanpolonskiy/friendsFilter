@@ -7,8 +7,7 @@ export const friendsListReducer = (state = initialState, action) => {
         case constants.LOAD_FRIENDS_LIST:
             return {
                 ...state,
-                friendsList: action.payload,
-                filterIds: getIdsFromCookie()
+                friendsList: action.payload
             };
 
         case constants.ADD_ID_FRIENDS_FILTER:
@@ -35,6 +34,12 @@ export const friendsListReducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchWordFilter: action.payload
+            }
+
+        case constants.LOAD_FILTERED_IDS:
+            return {
+                ...state,
+                filterIds: action.payload
             }
     }
     return state;

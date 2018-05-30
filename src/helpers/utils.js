@@ -16,7 +16,11 @@ export function saveIdsToCookie(array) {
 export function getIdsFromCookie() {
     let string = getCookie('ids');
     if (string === undefined) return [];
-    return string.split(',');
+    let cookieArray = string.split(',').map((item) => {
+        return parseInt(item);
+    });
+
+    return cookieArray;
 }
 
 function getCookie(name) {
