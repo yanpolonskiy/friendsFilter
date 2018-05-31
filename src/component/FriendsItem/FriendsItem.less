@@ -7,22 +7,30 @@
     color: black;
     padding-top: 5px;
     padding-right: 1em;
+    padding-left: 0.5em;
     &:not(:last-child) {
         border-bottom: 1px solid lightgrey;
     }
     div {
         &.friend-full-name {
             flex: 1 0 70%;
-        }        
+        }
         &.photo {
             flex: 1 0 20%;
-            img {                
-            clip-path: circle();
+            img {
+                clip-path: circle();
             }
         }
-    }
-    .button {
-        flex: 1 0 10%;
+    }    
+    button {
+        width: 30px;
+        height: 20px;
+        background-image: url('./icons/x.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        &.commonButton {
+            transform: rotate(45deg);
+        }        
     }
 }
 

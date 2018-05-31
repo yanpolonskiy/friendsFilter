@@ -6,7 +6,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import './FriendsApp.less';
 
-import * as utils from '../../helpers/utils.js';
+import {initializeVk, loginVk, filterByIds, filtration, vkFriendsSortByBirthDate, saveIdsToCookie } from '../../helpers/utils.js';
 import * as actions from '../../store/actions';
 import TheList from '../List/List.jsx';
 import { FilterInput } from '../FilterInput/FilterInput.jsx';
@@ -16,15 +16,14 @@ class FriendsApp extends Component {
     componentDidMount() {
         const { loadFriendsList, loadFilteredIds } = this.props;
         loadFilteredIds();
-        utils.initializeVk(6489235);
-        utils.loginVk();
-        utils.loadFriendsData().then(response => {
-            loadFriendsList(response.response.items);
-        }, error => { console.log(error.message); });
+        initializeVk(6489235);
+        loginVk();
+        loadFriendsList();
+        
     }
 
-    componentDidUpdate() {
-        utils.saveIdsToCookie(this.props.filterIds);
+    saveIds = () => {
+        saveIdsToCookie(this.props.filterIds);
     }
 
     addIdToFilterList = (id) => {
@@ -52,13 +51,13 @@ class FriendsApp extends Component {
     }
 
     render() {
-        let commonList = utils.filterByIds(this.props.friendsList,
+        let commonList = filterByIds(this.props.friendsList,
             this.props.filterIds, false);
-        let filterList = utils.filterByIds(this.props.friendsList,
+        let filterList = filterByIds(this.props.friendsList,
             this.props.filterIds, true);
-        commonList = utils.filtration(commonList, ['first_name', 'last_name'],
+        commonList = filtration(commonList, ['first_name', 'last_name'],
             this.props.searchWord);
-        filterList = utils.filtration(filterList, ['first_name', 'last_name'],
+        filterList = filtration(filterList, ['first_name', 'last_name'],
             this.props.searchWordFilter);
         return (
             <div id="react-container">
@@ -83,7 +82,10 @@ class FriendsApp extends Component {
                         updateDragFilter = {this.updateDragFilter}
                         friendsList={filterList}
                         text="Друзья в списке"
-                        filter={this.removeIdFromFilterList} />
+                        filter={this.removeIdFromFilterList} />                
+                </div>
+                <div className="app-footer">
+                    <button onClick={this.saveIds}>Сохранить</button>
                 </div>
             </div>
         )
@@ -94,7 +96,7 @@ const putStateToProps = (state) => {
     const friendsList = state.friendsListReducer.friendsList;
     const filterIds = state.friendsListReducer.filterIds;
     return {
-        friendsList: friendsList.sort(utils.vkFriendsSortByBirthDate),
+        friendsList: friendsList.sort(vkFriendsSortByBirthDate),
         filterIds,
         searchWord: state.friendsListReducer.searchWord,
         searchWordFilter: state.friendsListReducer.searchWordFilter

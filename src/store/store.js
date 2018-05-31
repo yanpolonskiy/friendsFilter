@@ -1,5 +1,6 @@
-import { combineReducers } from 'redux';
+import { combineReducers, compose, applyMiddleware } from 'redux';
 import { createStore } from 'redux';
+import thunk from 'redux-thunk';
 
 import { friendsListReducer } from './reducers';
 
@@ -8,13 +9,14 @@ export const initialState = {
     filterIds: [],
     searchWord: '',
     searchWordFilter: '',
-    draggableId: ''
+    dragableId: ''
 }
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__COMPOSE_ || compose;
 
 const allReducers = combineReducers({
     friendsListReducer
 })
 
 export const store = createStore(allReducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-    window.__REDUX_DEVTOOLS_EXTENSION__());
+    composeEnhancers(applyMiddleware(thunk)));

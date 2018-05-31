@@ -6,7 +6,7 @@ export const FilterInput = (props) => {
         <input type="text"
             className="filter-input"
             onChange={props.onInput}
-            placeholder="Введите описание">
+            placeholder="Начните вводить имя друга">
         </input>
     );
 }

@@ -36,6 +36,7 @@ class TheList extends Component {
                         <FriendsItem key={guid()}
                             updateDragId={this.props.updateDragId}
                             filter={this.props.filter}
+                            isFilterList={this.props.isFilterList}
                             friendId={friend.id}
                             friendPhoto={friend.photo_50}
                             friendFullName={

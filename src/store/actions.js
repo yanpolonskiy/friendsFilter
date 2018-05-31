@@ -1,11 +1,19 @@
 import * as constants from '../constants/storeConstans';
-import { sortObjectByName, getIdsFromCookie } from '../helpers/utils'
+import { sortObjectByName, getIdsFromCookie, loadFriendsData } from '../helpers/utils'
 
-export const loadFriendsList = (friendsList) => {
-    return {
-        type: constants.LOAD_FRIENDS_LIST,
-        payload: friendsList
-    };
+export const loadFriendsList = (friendsList) => dispatch => {
+    loadFriendsData().then(response => {
+        dispatch({
+            type: constants.LOAD_FRIENDS_LIST,
+            payload: response.response.items
+        });
+    }, error => {
+        console.log(error.message);
+        dispatch({
+            type: constants.LOAD_FRIENDS_LIST,
+            payload: []
+        });
+    });
 };
 
 export const loadFriendsIds = () => {

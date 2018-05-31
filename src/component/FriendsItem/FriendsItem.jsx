@@ -5,10 +5,9 @@ import { parseVkDate, getVkAge } from '../../helpers/utils.js';
 import './FriendsItem.less';
 import { ItemTypes } from '../../constants/dndConstants.js';
 
-
 const friendSource = {
     beginDrag(props) {
-      props.updateDragId(props.friendId);
+        props.updateDragId(props.friendId);
         return {};
     }
 };
@@ -31,23 +30,13 @@ class FriendsItem extends Component {
         this.filter(this.friendId);
     }
 
-    onDragStart(event) {
-        
-        return true;
-    }
-
-    drag(event) {
-        // event.target.textContent = data;
-    }
-
     render() {
         const { connectDragSource, isDragging, test } = this.props;
-        //if (isDragging) console.log(this.props);
+        let buttonClass = !this.props.isFilterList ? "commonButton" :
+        "filterButton";
         return (
             connectDragSource(
                 <li className="friends-item"
-                    onDrag={this.drag.bind(this)}
-                    onDragStart={this.onDragStart.bind(this)}
                     style={{
                         backgroundColor: isDragging ? "white" : "white",
                         cursor: 'move'
@@ -58,8 +47,8 @@ class FriendsItem extends Component {
                     <div className="friend-full-name">
                         <span>{this.props.friendFullName}</span>
                     </div>
-                    <button onClick={this.filtration.bind(this)}>
-                        OK
+                    <button onClick={this.filtration.bind(this)}
+                    className={buttonClass}>
                     </button>
                 </li>
             ))
