@@ -21,35 +21,7 @@ class FriendsApp extends Component {
         loadFriendsList();
         
     }
-
-    saveIds = () => {
-        saveIdsToCookie(this.props.filterIds);
-    }
-
-    addIdToFilterList = (id) => {
-        this.props.addId(id);
-    }
-
-    removeIdFromFilterList = (id) => {
-        this.props.removeId(id);                
-    }
-
-   updateDragId = (id) => {
-       this.props.changeDraggableId(id);
-   }
-
-   updateDragFilter = (isFilter) => {
-       this.props.updateFilterByDrag(isFilter);
-   }
-
-    changeSearchWord = (e) => {
-        this.props.changeSearchWord(e.target.value);
-    }
-
-    changeSearchWordFilter = (e) => {
-        this.props.changeSearchWordFilter(e.target.value);
-    }
-
+    
     render() {
         let commonList = filterByIds(this.props.friendsList,
             this.props.filterIds, false);
@@ -65,27 +37,27 @@ class FriendsApp extends Component {
                     <span className="list-title">Выберите друзей</span>
                 </div>
                 <div className="filter-inputs-container">
-                    <FilterInput onInput={this.changeSearchWord} />
-                    <FilterInput onInput={this.changeSearchWordFilter} />
+                    <FilterInput onInput={(e) => this.props.changeSearchWord(e.target.value)} />
+                    <FilterInput onInput={(e) => this.props.changeSearchWordFilter(e.target.value)} />
                 </div>
                 <div className="lists-container">
                     <TheList
                         isFilterList = {0}
-                        updateDragId = {this.updateDragId}
-                        updateDragFilter = {this.updateDragFilter}
+                        updateDragId = {this.props.changeDraggableId}
+                        updateDragFilter = {this.props.updateFilterByDrag}
                         friendsList={commonList}
                         text="Ваши друзья"
-                        filter={this.addIdToFilterList} />
+                        filter={this.props.addId} />
                     <TheList
                         isFilterList = {1}
-                        updateDragId = {this.updateDragId}
-                        updateDragFilter = {this.updateDragFilter}
+                        updateDragId = {this.props.changeDraggableId}
+                        updateDragFilter = {this.props.updateFilterByDrag}
                         friendsList={filterList}
                         text="Друзья в списке"
-                        filter={this.removeIdFromFilterList} />                
+                        filter={this.props.removeId} />                
                 </div>
                 <div className="app-footer">
-                    <button onClick={this.saveIds}>Сохранить</button>
+                    <button onClick={()=>{saveIdsToCookie(this.props.filterIds)} }>Сохранить</button>
                 </div>
             </div>
         )

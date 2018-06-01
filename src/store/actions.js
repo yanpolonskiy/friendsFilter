@@ -1,6 +1,15 @@
 import * as constants from '../constants/storeConstans';
 import { sortObjectByName, getIdsFromCookie, loadFriendsData } from '../helpers/utils'
 
+/**
+ * @todo remake loadFriendList in async, await
+ */
+//let response = await loadFriendsData()
+//  dispatch({
+//     type: constants.LOAD_FRIENDS_LIST,
+//      payload: response.response.items || []
+//  })
+
 export const loadFriendsList = (friendsList) => dispatch => {
     loadFriendsData().then(response => {
         dispatch({

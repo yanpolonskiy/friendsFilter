@@ -1,6 +1,14 @@
 import * as constants from '../constants/storeConstans';
 import { getIdsFromCookie, updateFilterIds } from '../helpers/utils.js';
-import { initialState } from './store';
+
+export const initialState = {
+    friendsList: [],
+    filterIds: [],
+    searchWord: '',
+    searchWordFilter: '',
+    dragableId: ''
+}
+
 
 export const friendsListReducer = (state = initialState, action) => {
     switch (action.type) {

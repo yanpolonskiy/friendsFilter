@@ -7,7 +7,7 @@ import { ItemTypes } from '../../constants/dndConstants.js';
 
 const friendSource = {
     beginDrag(props) {
-        props.updateDragId(props.friendId);
+        props.updateDragId(props.friend.id);
         return {};
     }
 };
@@ -23,16 +23,11 @@ class FriendsItem extends Component {
     constructor(props) {
         super(props);
         this.filter = this.props.filter;
-        this.friendId = this.props.friendId;
-    }
-
-    filtration() {
-        this.filter(this.friendId);
     }
 
     render() {
-        const { connectDragSource, isDragging, test } = this.props;
-        let buttonClass = !this.props.isFilterList ? "commonButton" :
+        const { connectDragSource, isDragging, test, friend, isFilterList } = this.props;
+        let buttonClass = !isFilterList ? "commonButton" :
         "filterButton";
         return (
             connectDragSource(
@@ -42,12 +37,12 @@ class FriendsItem extends Component {
                         cursor: 'move'
                     }}>
                     <div className="photo">
-                        <img src={this.props.friendPhoto} />
+                        <img src={friend.photo_50} />
                     </div>
                     <div className="friend-full-name">
-                        <span>{this.props.friendFullName}</span>
+                        <span>{friend.first_name + " " + friend.last_name}</span>
                     </div>
-                    <button onClick={this.filtration.bind(this)}
+                    <button onClick={()=>this.props.filter(friend.id)}
                     className={buttonClass}>
                     </button>
                 </li>
